@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <style>
+        #cont{
+            margin: auto;
+            width: 30%;
+        }
+        #cont>form>input{
+            margin-top: 5px;
+            width: 90%;
+            text-align: center;
+        }
+        #cont>a{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="cont">
+        <form onsubmit="logindata(event)" id="data">
+            <input type="text" id="username" placeholder="Enter username"/>
+            <br/>
+            <input type="password" id="password" placeholder="Enter password"/>
+            <br/>
+            <input type="submit"/>
+            <br/>
+        </form>
+        <a href="signupYouTube.html"><h3>Dont have an account please create</h3></a>
+    </div>
+</body>
+</html>
+<script>
+    if(localStorage.getItem("utube") === null){
+        localStorage.setItem("utube", JSON.stringify([]));
+    }
+    function logindata(e){
+        e.preventDefault();
+        let form = document.getElementById('data')
+        let user = {
+            username:form.username.value,
+            password:form.password.value
+        }
+        let userd = JSON.stringify(user)
+        fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+            method:'POST',
+            body:userd,
+            headers:{
+                "Content-Type":"application/json"
+            },
+        })
+        .then((res)=>{
+            return res.json()
+        })
+        .then((res)=>{
+            toloc(user.username)
+            window.location.href = "youtube.html"
+            console.log(res)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+    function toloc(user){
+        let data = JSON.parse(localStorage.getItem("utube"))
+        data.push(user)
+        localStorage.setItem('utube', JSON.stringify(data))
+    }
+</script>

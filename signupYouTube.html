@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in YouTube</title>
+    <style>
+        #cont{
+            margin: auto;
+            width: 30%;
+        }
+        #cont>form>input{
+            margin-top: 5px;
+            width: 90%;
+            text-align: center;
+        }
+        #cont>a{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="cont">
+        <form onsubmit="Signup(event)" id="signupform">
+            <input type="text" id="name" placeholder="Enter Name">
+            <br/>
+            <input type="text" id="email" placeholder="Enter Email">
+            <br/>
+            <input type="password" id="password" placeholder="Enter Password">
+            <br/>
+            <input type="text" id="username" placeholder="Enter Username">
+            <br/>
+            <input type="number" id="mobile" placeholder="Enter Mobile Number">
+            <br/>
+            <input type="text" id="description" placeholder="Description">
+            <br/>
+            <input type="submit">
+        </form>
+        <a href="logingYouTube.html"><h3>Already have an account please log in</h3></a>
+    </div>
+</body>
+</html>
+<script>
+    function Signup(e){
+        e.preventDefault()
+        let form = document.getElementById('signupform')
+        let userdata = {
+            name:form.name.value,
+            email:form.email.value,
+            password:form.password.value,
+            username:form.username.value,
+            mobile:form.mobile.value,
+            description:form.description.value
+        }
+        //console.log(userdata)
+
+        userdata = JSON.stringify(userdata)
+        fetch("https://masai-api-mocker.herokuapp.com/auth/register", {
+            method:'POST',
+            body:userdata,
+            headers:{
+                "Content-Type":"application/json",
+            },
+        })
+        .then((res)=>{
+            return res.json()
+        })        
+        .then((res)=>{
+            console.log(res)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+
+</script>
